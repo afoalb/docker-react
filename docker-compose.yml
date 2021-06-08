@@ -3,10 +3,20 @@ version: "3"
 
 services:
   web:
-    build: .
-    dockerfile: Dockerfile.dev
-  ports:
-    - 3000:3000
-  volumes:
-    - /app/node_modules  # don't touch this file when mapping the source code dir to the container /app 
-    - .:/app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules  # don't touch this file when mapping the source code dir to the container /app 
+      - .:/app
+
+  tests:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "test"]
